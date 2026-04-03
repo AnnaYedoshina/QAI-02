@@ -1,30 +1,7 @@
 {
-  "candidates": [
-    {
-      "content": {
-        "parts": [
-          {
-            "text": "Отлично, приступаю к детальному code review предоставленного Java-кода для автоматизации тестирования.\n\n---\n\n### 1. Надёжность и стабильность тестов\n\n-   **Проблема:** Отсутствие явных ожиданий (explicit waits) после действий, которые могут привести к изменению состояния UI.\n    -   **Фрагмент кода:** Весь тест, например:\n        ```java\n        productsPage.addBackpackToCart();\n        CartPage cartPage = productsPage.goToCart();\n        cartPage.verifyCartIsNotEmpty();\n        ```\n    -   **Почему проблема:** Методы Page Object'ов, такие как `addBackpackToCart()` или `goToCart()`, вероятно, выполняют клики или другие действия, которые могут потребовать некоторого времени для обновления DOM. Если `verifyCartIsNotEmpty()` вызывается сразу, без ожидания, тест может стать \"flaky\" (нестабильным), проваливаясь из-за проблем с синхронизацией, особенно на медленных средах или при высокой нагрузке. Хотя `verifyPageLoaded()` методы в Page Objects могут использовать явные ожидания, это не гарантирует, что *все* элементы, необходимые для следующего шага, будут доступны.\n    -   **Рекомендация:** Убедиться, что все методы Page Object'ов, которые взаимодействуют с элементами или переходят на новые страницы, используют явные ожидания (например, `WebDriverWait` с `ExpectedConditions`) для проверки видимости, кликабельности или присутствия элементов. В частности, методы, которые возвращают новую страницу, должны содержа"
-          }
-        ],
-        "role": "model"
-      },
-      "finishReason": "MAX_TOKENS",
-      "index": 0
-    }
-  ],
-  "usageMetadata": {
-    "promptTokenCount": 1432,
-    "candidatesTokenCount": 351,
-    "totalTokenCount": 9620,
-    "promptTokensDetails": [
-      {
-        "modality": "TEXT",
-        "tokenCount": 1432
-      }
-    ],
-    "thoughtsTokenCount": 7837
-  },
-  "modelVersion": "gemini-2.5-flash",
-  "responseId": "wcfPaYLRIuyCxN8P9LnZ0Qo"
+  "error": {
+    "code": 403,
+    "message": "Your API key was reported as leaked. Please use another API key.",
+    "status": "PERMISSION_DENIED"
+  }
 }
