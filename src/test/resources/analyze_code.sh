@@ -9,7 +9,7 @@
 #    Для использования своего промпта, передайте его в кавычках:
 #    ./analyze_code.sh
 
-API_KEY="AIzaSyBaTxC780RgT3PHuVecC8z7Fibp9BpBfvc"
+API_KEY="AIzaSyB6SofhG9QDS3TXwan7l2TLAizpxSSeZNc"
 MODEL="gemini-2.5-flash"
 API_URL="https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}"
 
@@ -66,7 +66,6 @@ PROMPT_ESCAPED_JSON=$(echo "$ESCAPED_PROMPT_CHARS" | awk '{ if (NR > 1) printf "
 # Файлы для анализа
 FILES=(
     "BaseTest.java"
-    "FullE2EScenarioTest.java"
 )
 
 # Директория для сохранения результатов
@@ -121,7 +120,9 @@ EOF
     OUTPUT_FILE="${OUTPUT_DIR}/${BASENAME}.txt"
 
     # Отправка запроса к API
-    curl -s -H "Content-Type: application/json" -d "${JSON_PAYLOAD}" -X POST "${API_URL}" > "$OUTPUT_FILE"
+    RAW_OUTPUT_FILE="${OUTPUT_DIR}/raw_output.json"
+    curl -s -H "Content-Type: application/json" -d "${JSON_PAYLOAD}" -X POST "${API_URL}" > "$RAW_OUTPUT_FILE"
+    cat "$RAW_OUTPUT_FILE" | jq -r '.candidates[0].content.parts[0].text' | fmt -w 80 > "$OUTPUT_FILE"
 
     echo "Результат анализа сохранен в: $OUTPUT_FILE"
 done
